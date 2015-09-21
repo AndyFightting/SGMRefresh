@@ -16,6 +16,7 @@
 		7696385C1BAE53F10021E35B /* SGMRefreshTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7696385B1BAE53F10021E35B /* SGMRefreshTests.m */; };
 		769638681BAE5BE80021E35B /* SGMRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = 769638671BAE5BE80021E35B /* SGMRefresh.m */; };
 		7696386A1BAE77260021E35B /* headerArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 769638691BAE77260021E35B /* headerArrow.png */; };
+		76BD1D821BAEE33100CB9774 /* footerArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 76BD1D811BAEE33100CB9774 /* footerArrow.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +46,7 @@
 		769638661BAE5BE80021E35B /* SGMRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGMRefresh.h; sourceTree = "<group>"; };
 		769638671BAE5BE80021E35B /* SGMRefresh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGMRefresh.m; sourceTree = "<group>"; };
 		769638691BAE77260021E35B /* headerArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = headerArrow.png; sourceTree = "<group>"; };
+		76BD1D811BAEE33100CB9774 /* footerArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = footerArrow.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,6 +131,7 @@
 			isa = PBXGroup;
 			children = (
 				769638691BAE77260021E35B /* headerArrow.png */,
+				76BD1D811BAEE33100CB9774 /* footerArrow.png */,
 				769638661BAE5BE80021E35B /* SGMRefresh.h */,
 				769638671BAE5BE80021E35B /* SGMRefresh.m */,
 			);
@@ -215,6 +218,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				76BD1D821BAEE33100CB9774 /* footerArrow.png in Resources */,
 				7696386A1BAE77260021E35B /* headerArrow.png in Resources */,
 				7696384B1BAE53F10021E35B /* Main.storyboard in Resources */,
 				769638501BAE53F10021E35B /* LaunchScreen.xib in Resources */,

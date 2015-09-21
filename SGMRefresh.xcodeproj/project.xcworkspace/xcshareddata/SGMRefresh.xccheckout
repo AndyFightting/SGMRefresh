@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>AD9B681C-03E2-4001-A0CF-70C1E8DCB760</string>
+	<key>IDESourceControlProjectName</key>
+	<string>SGMRefresh</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>7E866729CAAED2BEF4C12AB8B4DCA2EB8C80CFFA</key>
+		<string>https://github.com/AndyFightting/SGMRefresh.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>SGMRefresh.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>7E866729CAAED2BEF4C12AB8B4DCA2EB8C80CFFA</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/AndyFightting/SGMRefresh.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>7E866729CAAED2BEF4C12AB8B4DCA2EB8C80CFFA</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>7E866729CAAED2BEF4C12AB8B4DCA2EB8C80CFFA</string>
+			<key>IDESourceControlWCCName</key>
+			<string>SGMRefresh</string>
+		</dict>
+	</array>
+</dict>
+</plist>

@@ -17,6 +17,8 @@
 
     UITableView* mTable;
     SGMRefresh* refreshView;
+    
+    int cellNum;
 
 }
 
@@ -24,6 +26,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     self.view.backgroundColor = [UIColor lightGrayColor];
+    
+    cellNum = 8;
 
     mTable = [[UITableView alloc]initWithFrame:self.view.bounds style:UITableViewStylePlain];
     mTable.dataSource = self;
@@ -36,12 +40,28 @@
 }
 #pragma mark - 刷新代理
 -(void)SGMHeaderRefresh{
-    [refreshView performSelector:@selector(endHeaderRefresh) withObject:nil afterDelay:2];
+    [self performSelector:@selector(test1) withObject:nil afterDelay:1];
 }
+-(void)SGMFooterRefresh{
+    [self performSelector:@selector(test2) withObject:nil afterDelay:1];
+}
+#pragma mark - -------------
+
+-(void)test1{
+    cellNum = 8;
+    [mTable reloadData];
+    [refreshView endHeaderRefresh];
+}
+-(void)test2{
+    cellNum+= 8;
+    [mTable reloadData];
+    [refreshView endFooterRefresh];
+}
+
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
 
-    return 25;
+    return cellNum;
 }
 
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{

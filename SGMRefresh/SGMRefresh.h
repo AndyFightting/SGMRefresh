@@ -18,6 +18,8 @@
 -(instancetype)initWithScrollView:(UIScrollView*)sView withHeaderRefresh:(BOOL)hRefresh andFooterRefresh:(BOOL)fRefresh refreshDeletate:(id<SGMRefreshProtocol>)rDelegate;
 
 -(void)beginHeaderRefresh;
+
 -(void)endHeaderRefresh;
+-(void)endFooterRefresh;
 
 @end
