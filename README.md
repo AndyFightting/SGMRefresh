@@ -1,5 +1,5 @@
 # SGMRefresh
-自己写个下拉上拉刷新的模块
+自己写个下拉上拉刷新的模块，主要就是在SGMRefresh里监听scrollView的contentOffset属性，然后处理offSet或inSet即可。
 ```
 //使用
 SGMRefresh* refreshView = [[SGMRefresh alloc]initWithScrollView:mTable withHeaderRefresh:YES andFooterRefresh:YES refreshDeletate:self];
