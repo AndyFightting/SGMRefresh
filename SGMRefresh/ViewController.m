@@ -35,7 +35,23 @@
     mTable.tableFooterView = [[UIView alloc]init];
     [self.view addSubview:mTable];
     
+    //----两个动画设置图片数组
+    //3张图片帧
+    NSMutableArray *runningImgArray = [NSMutableArray array];
+    for (int i = 1; i<=3; ++i) {
+        UIImage *image = [UIImage imageNamed:[NSString stringWithFormat:@"runningImg%d",i]];
+        [runningImgArray addObject:image];
+    }
+    //60张图片帧
+    NSMutableArray *percentArray = [NSMutableArray array];
+    for (NSUInteger i = 1; i<=60; ++i) {
+        UIImage *image = [UIImage imageNamed:[NSString stringWithFormat:@"dropdown_anim__000%zd",i]];
+        [percentArray addObject:image];
+    }
+    
     refreshView = [[SGMRefresh alloc]initWithScrollView:mTable withHeaderRefresh:YES andFooterRefresh:YES refreshDeletate:self];
+    [refreshView.percentImgArray addObjectsFromArray:percentArray];
+    [refreshView.runningImgArray addObjectsFromArray:runningImgArray];
     [refreshView beginHeaderRefresh];
 }
 #pragma mark - 刷新代理

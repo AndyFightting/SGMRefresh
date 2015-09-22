@@ -11,6 +11,9 @@
 //16进制颜色
 #define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 
+//动画时间
+#define ANIMATION_TIME 0.25
+
 typedef enum {
     NotRefreshing = 0,
     IsRefreshing = 1,
@@ -50,8 +53,9 @@ typedef enum {
     SGMRefreshStatus headerStatus;
     SGMRefreshStatus footerStatus;
     
-
+    UIImageView* gifImgView;
 }
+@synthesize percentImgArray,runningImgArray;
 
 -(instancetype)initWithScrollView:(UIScrollView*)sView withHeaderRefresh:(BOOL)hRefresh andFooterRefresh:(BOOL)fRefresh refreshDeletate:(id<SGMRefreshProtocol>)rDelegate{
     self = [super init];
@@ -90,21 +94,29 @@ typedef enum {
     headerContainerView.backgroundColor = UIColorFromRGB(0xf2f2f2);
     [scrollView addSubview:headerContainerView];
     
-    headerLabel = [[UILabel alloc]initWithFrame:CGRectMake(scrollViewWidth/2-10, headerHeight-40, 100, 20)];
+    headerLabel = [[UILabel alloc]initWithFrame:CGRectMake(scrollViewWidth/2-15, headerHeight-40, 100, 20)];
     headerLabel.text = @"下拉刷新";
     headerLabel.textColor = [UIColor grayColor];
     headerLabel.backgroundColor = [UIColor clearColor];
     headerLabel.font = [UIFont systemFontOfSize:14];
     [headerContainerView addSubview:headerLabel];
     
-    headerImg = [[UIImageView alloc]initWithFrame:CGRectMake(scrollViewWidth/2-30, headerHeight-45, 12, 30)];
+    headerImg = [[UIImageView alloc]initWithFrame:CGRectMake(scrollViewWidth/2-35, headerHeight-45, 12, 30)];
     [headerImg setImage:[UIImage imageNamed:@"headerArrow.png"]];
     [headerContainerView addSubview:headerImg];
     
     headerIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    headerIndicator.frame =CGRectMake(scrollViewWidth/2-40, headerHeight-45, 30, 30);
+    headerIndicator.frame =CGRectMake(scrollViewWidth/2-45, headerHeight-45, 30, 30);
     [headerContainerView addSubview:headerIndicator];
-
+    
+    //----添加gif动画-----
+    gifImgView = [[UIImageView alloc]initWithFrame:CGRectMake(10,headerHeight-55, 50, 50)];
+    gifImgView.animationImages = runningImgArray;
+    gifImgView.animationDuration = runningImgArray.count*0.1;
+    [headerContainerView addSubview:gifImgView];
+    
+    percentImgArray = [[NSMutableArray alloc]init];
+    runningImgArray = [[NSMutableArray alloc]init];
 
 }
 -(void)initFooterView{
@@ -149,17 +161,32 @@ typedef enum {
     CGFloat offSetY = scrollView.contentOffset.y;
     if (scrollView.isDragging) {//手一直接触着在拉
         if (offSetY <=0&&headerRefresh) {//处理下拉
-            if (offSetY < headerFlag && !headerPassFlag) {
+            
+            //手在拉时的动画处理----
+            int intOffSetY = -(int)offSetY;
+            if (intOffSetY<percentImgArray.count) {
+               gifImgView.image = percentImgArray[intOffSetY];
+            }
+    
+            if (offSetY < headerFlag && !headerPassFlag) {//超过伐值
                 headerPassFlag = YES;
                 headerLabel.text = @"释放刷新";
-                [UIView animateWithDuration:0.25 animations:^{
+                
+                //开始动画
+                [gifImgView startAnimating];
+                
+                [UIView animateWithDuration:ANIMATION_TIME animations:^{
                     headerImg.transform = CGAffineTransformMakeRotation(3.1416);
                 }];
                 
-            }else if(offSetY > headerFlag && headerPassFlag){
+            }else if(offSetY > headerFlag && headerPassFlag){//退回伐值
                 headerPassFlag = NO;
                 headerLabel.text = @"下拉刷新";
-                [UIView animateWithDuration:0.25 animations:^{
+                
+                //结束动画
+                [gifImgView stopAnimating];
+                
+                [UIView animateWithDuration:ANIMATION_TIME animations:^{
                     headerImg.transform = CGAffineTransformIdentity;
                 }];
             }
@@ -167,16 +194,16 @@ typedef enum {
         }else{//处理上拉
             if(footerRefresh){
                 float tmpHeight =offSetY+scrollViewHeight-footerOrightY;// 》=0 越往上拉越大
-                if (tmpHeight > footerFlag && !footerPassFlag) {
+                if (tmpHeight > footerFlag && !footerPassFlag) {//超过伐值
                     footerPassFlag = YES;
                     footerLabel.text = @"释放立即加载";
-                    [UIView animateWithDuration:0.25 animations:^{
+                    [UIView animateWithDuration:ANIMATION_TIME animations:^{
                         footerImg.transform = CGAffineTransformMakeRotation(3.1415);
                     }];
-                }else if (tmpHeight < footerFlag && footerPassFlag){
+                }else if (tmpHeight < footerFlag && footerPassFlag){//退回伐值
                     footerPassFlag = NO;
                     footerLabel.text = @"上拉加载更多";
-                    [UIView animateWithDuration:0.25 animations:^{
+                    [UIView animateWithDuration:ANIMATION_TIME animations:^{
                         footerImg.transform = CGAffineTransformIdentity;
                     }];
                 }
@@ -201,14 +228,14 @@ typedef enum {
     }
     
     headerStatus = IsRefreshing;
-    headerLabel.text = @"刷新中...";
+    headerLabel.text = @"正在刷新...";
     headerImg.hidden = YES;
     [headerIndicator startAnimating];
     if ([refreshDelegate respondsToSelector:@selector(SGMHeaderRefresh)]) {
         [refreshDelegate SGMHeaderRefresh];
     }
     
-    [UIView animateWithDuration:0.25 animations:^{
+    [UIView animateWithDuration:ANIMATION_TIME animations:^{
         [scrollView setContentInset:UIEdgeInsetsMake(-headerFlag, 0, 0, 0)];
    }];
 }
@@ -218,15 +245,20 @@ typedef enum {
         return;
     }
     
+    //开始动画
+    gifImgView.animationImages = runningImgArray;
+    gifImgView.animationDuration = runningImgArray.count*0.1;
+    [gifImgView startAnimating];
+    
     headerStatus = IsRefreshing;
-    headerLabel.text = @"刷新中...";
+    headerLabel.text = @"正在刷新...";
     headerImg.hidden = YES;
     [headerIndicator startAnimating];
     if ([refreshDelegate respondsToSelector:@selector(SGMHeaderRefresh)]) {
         [refreshDelegate SGMHeaderRefresh];
     }
 
-    [UIView animateWithDuration:0.25 animations:^{
+    [UIView animateWithDuration:ANIMATION_TIME animations:^{
         scrollView.contentInset = UIEdgeInsetsMake(headerFlag, 0, 0, 0);
         scrollView.contentOffset = CGPointMake(0,headerFlag);
     }];
@@ -242,7 +274,9 @@ typedef enum {
     headerImg.transform = CGAffineTransformIdentity;
     headerLabel.text = @"下拉刷新";
     
-    [UIView animateWithDuration:0.25 animations:^{
+    [gifImgView performSelector:@selector(stopAnimating) withObject:nil afterDelay:ANIMATION_TIME];
+    
+    [UIView animateWithDuration:ANIMATION_TIME animations:^{
         [scrollView setContentInset:UIEdgeInsetsMake(0, 0, 0, 0)];
     }];
     
@@ -264,7 +298,7 @@ typedef enum {
         [refreshDelegate SGMFooterRefresh];
     }
     
-    [UIView animateWithDuration:0.25 animations:^{
+    [UIView animateWithDuration:ANIMATION_TIME animations:^{
         CGFloat bottom = footerFlag ;
         
         CGFloat deltaH = scrollView.contentSize.height - scrollViewHeight;
@@ -283,7 +317,7 @@ typedef enum {
     footerImg.transform = CGAffineTransformIdentity;
     footerLabel.text = @"上拉加载更多";
     
-    [UIView animateWithDuration:0.25 animations:^{
+    [UIView animateWithDuration:ANIMATION_TIME animations:^{
         scrollView.contentInset = UIEdgeInsetsZero;
     }];
     
@@ -291,6 +325,12 @@ typedef enum {
 }
 
 -(void)dealloc{
+    [percentImgArray removeAllObjects];
+    [runningImgArray removeAllObjects];
+    
+    percentImgArray = nil;
+    runningImgArray = nil;
+    
     [scrollView removeObserver:self forKeyPath:@"contentOffset"];
 }
 

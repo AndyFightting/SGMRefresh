@@ -15,6 +15,12 @@
 @end
 
 @interface SGMRefresh : UIView
+
+//动画数组
+@property(nonatomic,retain)NSMutableArray* percentImgArray;//手在拉时的动画帧
+@property(nonatomic,retain)NSMutableArray* runningImgArray;//手放开时的动画帧
+
+
 -(instancetype)initWithScrollView:(UIScrollView*)sView withHeaderRefresh:(BOOL)hRefresh andFooterRefresh:(BOOL)fRefresh refreshDeletate:(id<SGMRefreshProtocol>)rDelegate;
 
 -(void)beginHeaderRefresh;
