@@ -111,8 +111,6 @@ typedef enum {
     
     //----添加gif动画-----
     gifImgView = [[UIImageView alloc]initWithFrame:CGRectMake(10,headerHeight-55, 50, 50)];
-    gifImgView.animationImages = runningImgArray;
-    gifImgView.animationDuration = runningImgArray.count*0.1;
     [headerContainerView addSubview:gifImgView];
     
     percentImgArray = [[NSMutableArray alloc]init];
@@ -173,6 +171,8 @@ typedef enum {
                 headerLabel.text = @"释放刷新";
                 
                 //开始动画
+                gifImgView.animationImages = runningImgArray;
+                gifImgView.animationDuration = runningImgArray.count*0.1;
                 [gifImgView startAnimating];
                 
                 [UIView animateWithDuration:ANIMATION_TIME animations:^{
