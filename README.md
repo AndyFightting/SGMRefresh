@@ -1,5 +1,5 @@
 # SGMRefresh
-自己写个下拉上拉刷新的模块，主要就是在SGMRefresh里监听scrollView的contentOffset属性，然后处理offSet或inSet即可。
+由于[MJRefresh](https://github.com/CoderMJLee/MJRefresh)把太多东西揉在一起了，实在没必要，还很乱...于是自己写个精简版的下拉上拉刷新的模块，主要就是在SGMRefresh里监听scrollView的contentOffset属性，然后处理offSet或inSet即可。
 添加了gif下拉刷新的动画。代码简单易懂，好自定义，想在刷新头部或尾部加啥都可以，比如刷新时间啥的，这里就不加了，需要的话自己加O(∩_∩)O哈！
 
 ```
